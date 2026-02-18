@@ -30,7 +30,7 @@ A **professional-grade 5-minute sniping bot** : Designed for high-frequency trad
 ## Installation
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/dev-protocol/polymarket-5m-market-sniping-bot
 cd polymarket-snipe-bot
 npm install
 ```
@@ -110,3 +110,5 @@ Bot Workflow:
 ## License
 
 MIT License
+
+[@xstacks](https://t.me/x_stacks)
