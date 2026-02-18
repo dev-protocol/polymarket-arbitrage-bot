@@ -1,0 +1,18 @@
+[market]
+market_coin = "btc" # btc / eth / sol / xrp
+market_period = "5" # 15 / 60 / 240 / 1440
+
+[trade_1]
+entry = [
+    { min = 10, max = 500, entry_remaining_sec_down = 1, entry_remaining_sec_up = 2, amount = 5 },
+    { min = 20, max = 500, entry_remaining_sec_down = 2, entry_remaining_sec_up = 3, amount = 5 },
+    { min = 40, max = 500, entry_remaining_sec_down = 3, entry_remaining_sec_up = 5, amount = 5 },
+    { min = 70, max = 500, entry_remaining_sec_down = 5, entry_remaining_sec_up = 7, amount = 5 },
+    { min = 85, max = 500, entry_remaining_sec_down = 7, entry_remaining_sec_up = 12, amount = 5 },
+    { min = 100, max = 500, entry_remaining_sec_down = 12, entry_remaining_sec_up = 20, amount = 5 },
+    { min = 210, max = 500, entry_remaining_sec_down = 20, entry_remaining_sec_up = 45, amount = 5 },
+]
+
+[monitor]
+proxy_wallet_address = "0x6031b6eed1c97e853c6e0f03ad3ce3529351f96d"
+market_slug = "btc-updown-15m-1769634900"
