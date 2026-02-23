@@ -1,5 +1,3 @@
-import "bign.ts"
-
 export const MARKET_CHANNEL = "market";
 export const USER_CHANNEL = "user";
 

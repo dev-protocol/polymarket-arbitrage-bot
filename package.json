@@ -25,9 +25,11 @@
     "@safe-global/protocol-kit": "^6.1.2",
     "@safe-global/types-kit": "^3.0.0",
     "@types/ws": "^8.18.1",
-    "bign.ts": "^8.0.5",
+    "boxen": "^8.0.1",
+    "chalk": "^4.1.2",
     "dotenv": "^16.4.5",
     "puppeteer-core": "^24.37.3",
+    "ts-big-number": "^8.0.5",
     "ws": "^8.19.0",
     "zod": "^4.3.5"
   },

@@ -9,6 +9,7 @@ import { Trade } from "./trade";
 import { current_price, price_to_beat_global, set_purchased_token } from "./services/ws_rtds";
 import { Volatility } from "./analysis";
 import { redeem } from "./trade/inventory";
+import { tui } from "./tui";
 
 loadConfig();
 
@@ -49,10 +50,10 @@ async function main() {
     endTimestampGlobal = endTimestamp;
     marketPeriod = endTimestamp - startTimestamp;
 
-    console.log(`================================================================\n`);
-    console.log(`🔍 Searching for market with slug: "${slug}"`);
-    console.log(`   Market ends at:${getCurrentTime()} / ${endTimestamp}`);
-    console.log(`\n================================================================`);
+    console.log(tui.section("Market", [
+      `🔍 Slug: ${tui.highlight(slug)}`,
+      tui.dim(`Ends: ${getCurrentTime()} / ${endTimestamp}`),
+    ]));
 
     const market = await getMarket(slug);
 
@@ -61,7 +62,7 @@ async function main() {
     const upTokenId = JSON.parse(market.clobTokenIds)[0];
     const downTokenId = JSON.parse(market.clobTokenIds)[1];
 
-    console.log("==================================================================================================>")
+    console.log(tui.dim("—".repeat(60)));
 
     const client = new ClobClient(
       HOST,
@@ -133,7 +134,7 @@ async function main() {
       ],
     });
 
-    console.log(`✅ Subscribed to market updates for tokens: ${upTokenId}, ${downTokenId}`);
+    console.log(tui.success(`Subscribed to market updates for tokens: ${upTokenId}, ${downTokenId}`));
 
     while (true) {
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -142,9 +143,9 @@ async function main() {
 
       if (price_to_beat_global != 0 && endTimestamp - getCurrentTime() <= 0) {
         if (price_to_beat_global > current_price) {
-          console.log("\n\n\n\t\t\t\tDOWN WIN\n\n\n");
+          console.log(tui.outcomeBanner("DOWN WIN"));
         } else {
-          console.log("\n\n\n\t\t\t\tUP WIN\n\n\n");
+          console.log(tui.outcomeBanner("UP WIN"));
         }
 
         volatility.clearHistory()
@@ -153,7 +154,7 @@ async function main() {
     }
 
     if (USER_WS.readyState === WebSocket.OPEN || USER_WS.readyState === WebSocket.CONNECTING) {
-      console.log("🔌 Closing websocket connection for market refresh");
+      console.log(tui.dim("🔌 Closing websocket connection for market refresh"));
       USER_WS.close();
     }
 

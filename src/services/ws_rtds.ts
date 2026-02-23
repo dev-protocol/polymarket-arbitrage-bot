@@ -2,6 +2,7 @@ import { RealTimeDataClient } from "@polymarket/real-time-data-client";
 import { orderBook } from "./ws_clob";
 import { endTimestampGlobal, marketPeriod, startTimestampGlobal, trade, volatility } from "..";
 import { getCurrentTimeMs } from "../utils";
+import { tui } from "../tui";
 
 export let price_to_beat_global: number = 0;
 export let current_price: number = 0;
@@ -19,7 +20,7 @@ export const set_purchased_token = (purchased_token: boolean) => {
 let subscriptions: Array<{ topic: string; type: string; filters: string }> = [];
 
 export function setSubscriptions(subscriptionList: Array<{ topic: string; type: string; filters: string }>) {
-    console.log("📝 RTDS: Setting subscriptions:", subscriptionList);
+    console.log(tui.dim("📝 RTDS: Setting subscriptions: " + JSON.stringify(subscriptionList)));
     subscriptions = subscriptionList;
 }
 
@@ -70,28 +71,19 @@ export function createRTDSClient(
                         const volatility1 = delta - Math.abs(vol?.delta)
                         const volatility2 = delta + Math.abs(vol?.delta)
 
-                        console.log(
-                            "Price To Beat".padEnd(12),
-                            String(price_to_beat_global).padEnd(10),
-                            "Delta |".padEnd(8),
-                            String(price_to_beat_global == 0 ? 0 : (delta).toFixed(2)).padEnd(8),
-                            "| Current Price".padEnd(16),
-                            String(current_price?.toFixed(8) ?? 'undefined').padEnd(18),
-                            volatility1,
-                            volatility2,
-                            "| UP ASK/BID ".padEnd(10),
-                            upTokenAskPrice,
-                            "/",
-                            upTokenBidPrice,
-                            "DOWN ASK/BID ".padEnd(10),
-                            downTokenAskPrice,
-                            "/",
-                            downTokenBidPrice,
-                            "| Remaining Sec".padEnd(15),
-                            remainingSec.toFixed(3),
-                            "/",
-                            marketPeriod
-                        );
+                        console.log(tui.tickLine({
+                            priceToBeat: price_to_beat_global,
+                            delta,
+                            currentPrice: current_price,
+                            vol1: volatility1,
+                            vol2: volatility2,
+                            upAsk: upTokenAskPrice,
+                            upBid: upTokenBidPrice,
+                            downAsk: downTokenAskPrice,
+                            downBid: downTokenBidPrice,
+                            remainingSec,
+                            marketPeriod,
+                        }));
 
                         trade.make_trading_decision(
                             delta,

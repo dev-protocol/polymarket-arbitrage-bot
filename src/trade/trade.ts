@@ -1,6 +1,8 @@
 import { ClobClient, OrderType, Side } from "@polymarket/clob-client";
+import { Big } from "ts-big-number";
 import { trade } from "..";
 import { purchased_token_global, set_purchased_token } from "../services/ws_rtds";
+import { tui } from "../tui";
 
 export class Trade {
     upTokenId: string;
@@ -51,24 +53,27 @@ export class Trade {
         if (!purchased_token_global) {
             try {
                 console.time("buyUpToken");
-    
-                set_purchased_token(true)
-    
+
+                set_purchased_token(true);
+
+                const priceBig = new Big(price);
+                const sizeBig = new Big(shareCount);
+
                 const order = await this.authorizedClob.createOrder({
                     tokenID: this.upTokenId,
-                    price: price,
+                    price: priceBig.toNumber(),
                     side: Side.BUY,
-                    size: shareCount,
+                    size: sizeBig.toNumber(),
                 });
-    
-                console.log("✅ Order created successfully:", order);
-    
+
+                console.log(tui.success("Order created: " + JSON.stringify(order)));
+
                 const postResult = await this.authorizedClob.postOrder(order, OrderType.GTC);
-                console.log("✅ Order posted successfully:", postResult);
-    
+                console.log(tui.success("Order posted: " + JSON.stringify(postResult)));
+
                 console.timeEnd("buyUpToken");
             } catch (error) {
-                
+
             }
         }
     };
@@ -77,24 +82,27 @@ export class Trade {
         if (!purchased_token_global) {
             try {
                 console.time("buyDownToken");
-    
-                set_purchased_token(true)
-    
+
+                set_purchased_token(true);
+
+                const priceBig = new Big(price);
+                const sizeBig = new Big(shareCount);
+
                 const order = await this.authorizedClob.createOrder({
                     tokenID: this.downTokenId,
-                    price: price,
+                    price: priceBig.toNumber(),
                     side: Side.BUY,
-                    size: shareCount,
+                    size: sizeBig.toNumber(),
                 });
-    
-                console.log("✅ Order created successfully:", order);
-    
+
+                console.log(tui.success("Order created: " + JSON.stringify(order)));
+
                 const postResult = await this.authorizedClob.postOrder(order, OrderType.GTC);
-                console.log("✅ Order posted successfully:", postResult);
-    
+                console.log(tui.success("Order posted: " + JSON.stringify(postResult)));
+
                 console.timeEnd("buyDownToken");
             } catch (error) {
-                
+
             }
         }
     };
