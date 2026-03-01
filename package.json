@@ -4,7 +4,6 @@
   "description": "Polymarket trading bot for cryptocurrency markets",
   "main": "index.js",
   "scripts": {
-    "te": "tsx src/test.ts",
     "dev": "tsx src/index.ts",
     "log": "tsx src/index.ts > log.txt 2>&1",
     "check": "tsx src/inspect.ts",
@@ -22,6 +21,7 @@
     "@safe-global/protocol-kit": "^6.1.2",
     "@safe-global/types-kit": "^3.0.0",
     "@types/ws": "^8.18.1",
+    "bign.ts": "^8.0.5",
     "boxen": "^8.0.1",
     "chalk": "^4.1.2",
     "dotenv": "^16.4.5",

@@ -1,10 +1,3 @@
-/**
- * Retry utility function for instant retries on failure
- * @param fn - The async function to retry
- * @param maxRetries - Maximum number of retry attempts (default: 3)
- * @param operationName - Name of the operation for logging
- * @returns Promise that resolves with the function result or rejects after all retries fail
- */
 export async function retryWithInstantRetry<T>(
     fn: () => Promise<T>,
     maxRetries: number = 3,
@@ -21,13 +14,11 @@ export async function retryWithInstantRetry<T>(
             return result;
         } catch (error: any) {
             lastError = error;
-            
-            // Don't retry on authentication errors
+
             if (error?.status === 401 || error?.data?.error?.includes("Unauthorized")) {
                 throw error;
             }
-            
-            // Don't retry on validation errors (these are not transient)
+
             if (error?.message?.includes("Cannot") || error?.message?.includes("invalid") || error?.message?.includes("missing")) {
                 throw error;
             }
