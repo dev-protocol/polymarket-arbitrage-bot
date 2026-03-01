@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Polymarket trading bot for cryptocurrency markets",
   "main": "index.js",
-  "engines": {
-    "node": ">=20.6.0"
-  },
   "scripts": {
     "te": "tsx src/test.ts",
     "dev": "tsx src/index.ts",
